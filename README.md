@@ -9,3 +9,6 @@ EDA-groupings/sortings/aggregation -mean, max, sum values/pivotations/visuals wi
 
 Docs:
 pdf on conclusions plus recomms/charts.  
+
+<img width="947" alt="prof 2" src="https://user-images.githubusercontent.com/47668423/100078100-6d843700-2e43-11eb-8dc8-76bc0a90a6d0.png">
+
