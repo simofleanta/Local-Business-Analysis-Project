@@ -295,7 +295,7 @@ df.groupby('Year')['Sales'].sum().plot(kind='bar')
 plt.ylabel('Sales')
 plt.title('2019-2020 comparison')
 plt.show()
-
+#
 
 
 
