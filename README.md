@@ -5,7 +5,6 @@ Insights:
 #ROI
 #A/B approach
 #profitability of products
-# performance on weather site
 #performance per months/years/weeks
 #paralell to the local econoy unemployment 
 
