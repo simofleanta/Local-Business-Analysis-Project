@@ -27,16 +27,16 @@ what are the best months and days?"""
 #visuals with plotly (also a separate section containing plotly)
 #function on roi 
 #a/b approach 
+#Weather context 
+#economics  
 #profitability 
-
-
 
 c=pd.read_csv('bike_business_plan.csv')
 print(c.columns)
 df=DataFrame(c.head(500))
 print(df.head(500))
 
-#ncoe to numeric
+#encode to numeric
 encoder=LabelEncoder()
 df['Sales']=encoder.fit_transform(df['Sales'])
 
@@ -54,7 +54,7 @@ df['Number_Bikes']=encoder.fit_transform(df['Number_Bikes'])
 c=df.dtypes
 #print(c)
 
-"""Exploratory data"""
+"""Exploratory data analysis"""
 #groupings
 x=df.groupby(['Season'])[['Number_Bikes']]
 print(x.mean())
@@ -110,7 +110,8 @@ plt.ylabel('Sales')
 plt.title('2019-2020 comparison')
 plt.show()
 
-"""pivotations"""
+#------------------------------Basic PIVOTS------------------------
+
 
 #What are the min max levels of items and months for the business?
 
@@ -130,8 +131,56 @@ pivotday_min=df.pivot_table(index='Month',columns=['Year','Item'], aggfunc={'Sal
 pivotday_min['Min']=pivotday_min.idxmin(axis=1)
 print(pivotday_min)
 
-#filter years
+#------------------------------------ Years benchmark  
 y19=df[df.Year==2019]
+y=df[df.Year==2020]
+
+#stack df merge on certain columns 
+stack_years=y19.append(y)
+combine_m=stack_years[10:-40][['Month','Year','Item','Sales','weather_forecast']]
+print(combine_m)
+
+#second day benchmark per year 2019,2020
+day2_2019=y19[y19.Day==2]
+day2_2020=y[y.Day==2]
+stack=day2_2019.append(day2_2020)
+day_stack=stack[2:10][['Year','Month','Item','weather_forecast','Sales']]
+print(day_stack)
+
+#---------------Month Benchmark-------
+
+M=y19[df.Month=='May']
+M1=y[df.Month=='May']
+stacked_ms=M.append(M1)
+Months_stack=stacked_ms[4:20][['Year','Month','Sales']]
+print(Months_stack)
+
+M=y19[df.Month=='Dec']
+M1=y[df.Month=='Dec']
+stacked_ms=M.append(M1)
+Months_stack=stacked_ms[4:20][['Year','Month','Sales']]
+print(Months_stack)
+
+
+#-----------------------------See performance per items in years or days----------
+#ITEMS BENCHMARK per years.
+#items 
+day2_2020=y[y.Day==2]
+day2_2019=y19[y19.Day==2]
+Raleigh_day2_2020=day2_2020[df.Item=='Raleigh']
+Raleigh_day2_2019=day2_2019[df.Item=='Raleigh']
+Raleigh_s=Raleigh_day2_2019.append(Raleigh_day2_2020)
+Raleigh_per_days=Raleigh_s[1:5][['Year','Item','weather_forecast','Sales']]
+print(Raleigh_per_days)
+
+#Raleigh performance on 2019, 2020 years 
+Raleigh_y20=y[df.Item=='Raleigh']
+Raleigh_y19=y19[df.Item=='Raleigh']
+Raleigh_ys=Raleigh_y19.append(Raleigh_y20)
+Raleigh_y=Raleigh_ys[2:40][['Year','Item','weather_forecast','Sales']]
+print(Raleigh_y)
+
+#--------more indepth Pivotation  on filter years 2019 
 
 df['Sales']=encoder.fit_transform(df['Sales'])
 sns.violinplot(x=y19["Item"], y=y19["Sales"], palette="Blues")
@@ -141,7 +190,7 @@ df['Sales']=encoder.fit_transform(df['Sales'])
 sns.violinplot(x=y19["Month"], y=y19["Sales"], palette="Blues")
 plt.show()
 
-#Bikes situ in 2020  
+#Pivot Bikes situ in 2020  
 
 y=df[df.Year==2020]
 pivotday_min_2020=y.pivot_table(index='Month',columns=['Year','Item'], aggfunc={'Sales':'min'}).fillna(0)
@@ -152,13 +201,15 @@ pivotday_max_2020=y.pivot_table(index='Month',columns=['Year','Month','Item'], a
 pivotday_max_2020['Max']=pivotday_max_2020.idxmax(axis=1)
 print(pivotday_max_2020)
 
-#show me day 2  max values for months
+#Pivots to show day 2  max values for months
 
-#pivot day2 
+#pivot day2 2020
 day2=y[y.Day==2]
 pivotday2_2020=y.pivot_table(index='Item',columns=['Month','Item'], aggfunc={'Sales':'max'}).fillna(0)
 pivotday2_2020['Max']=pivotday2_2020.idxmax(axis=1)
 print(pivotday2_2020)
+
+#------------------VIOLINS CHARTS 
 
 #encode sales to numeric for violinplot
 encoder=LabelEncoder()
@@ -177,12 +228,13 @@ days=pd.DataFrame(data=bike_d)
 bike_Item=days.sort_values(by='Sales',ascending=False,axis=0)
 
 fig = px.bar(bike_Item, x="Sales", y=bike_Item.index, color='Sales',color_continuous_scale='Blues',title="Average sales per month")
-plotly.offline.plot(fig, filename='bike')
+#plotly.offline.plot(fig, filename='bike')
 
-#corr
+#-----------------------CORRELATIONS
 plt.figure(figsize=(15,15))
 sns.heatmap(df.corr(),annot=True,cmap='Blues_r',mask=np.triu(df.corr(),k=1))
-plt.show()
+
+#-----------------------------ROI-------------------------------------------------------------
 
 """ROI ON 2020 in a pandemic it was anticipated a larger use of echo transport including bikes 
 instead of public transport so the investment was higher"""
@@ -211,7 +263,7 @@ def roi(investment,bike_costs,loss):
 
 ROI=roi(investment,bike_costs,loss)
 print(ROI)
-
+#------------------------------------A/B-------------------------------------------------
 """Given the differences between the hears, it worth using an A/B approach over ites in years or season/months """
 
 a=df['Interested']
@@ -252,15 +304,47 @@ print(Year_A.mean())
 Year_B=df.groupby(['Year','Item'])[['B']]
 print(Year_B.mean())
 
-#Graph on A situ
-ab=df
-df = px.data.tips()
-fig = px.density_heatmap(ab, x="Item", y="A", nbinsx=20, nbinsy=20, color_continuous_scale="Blues",title='Situation A distribution occross items')
+#-------------------------------------------WHEATHER CONTEXT SALES -----------------------
+
+#What are the sales on a weather condition according to the season and item?
+
+#winter sales
+sales_winter_weather=df[df.Season=='winter']
+winter_sales=sales_winter_weather.groupby(['Year','Item','weather_forecast'])[['Sales']]
+print(winter_sales.mean())
+
+#summer sales
+sales_summer_weather=df[df.Season=='summer']
+summer_sales=sales_summer_weather.groupby(['Year','Item','weather_forecast'])[['Sales']]
+print(summer_sales.mean())
+
+#What are the sales on a weather condition according to the season and year?
+
+#summer 2020
+year_2020=df[df.Year==2020]
+summer_2020=year_2020[year_2020.Season=='summer']
+s_2020=summer_2020.groupby(['Year','Item','weather_forecast'])[['Sales']]
+print(s_2020.mean())
+
+#winter 2020
+year_2019=df[df.Year==2019]
+winter_2019=year_2019[year_2019.Season=='winter']
+w_2019=winter_2019.groupby(['Year','Item','weather_forecast'])[['Sales']]
+print(w_2019.mean())
+
+
+#subset -combine columns in a df showing an ex of sales on very good weather 
+
+combined_col=year_2019[4:8][['Year','Item','Sales','weather_forecast']]
+print(combined_col)
+
+#Should I reopen the business given the actual economic context?
 
 
 
+#-----------------------------------PROFITABILITY--------------------------------
 
-"""Calculate Profitability"""
+#Calculate Profitability
 
 #profitability of product forumula
 #cost to produce =2000 per product *no of prods
@@ -268,13 +352,12 @@ fig = px.density_heatmap(ab, x="Item", y="A", nbinsx=20, nbinsy=20, color_contin
 #if profitability per product sold= product profitability / number of products 
 
 df['Cost_to_produce']=2000*df.Number_Bikes
-print(df.columns)
 df['Profitability']=df.Cost_to_produce-df.Sales
 df['Profitability_p']=df.Profitability/df.Number_Bikes
 print(df.columns)
 print(df.head(3))
 
-"""Aggregate profitability per bike brand"""
+#Aggregate profitability per bike brand
 Profitability_group=df.groupby(['Season','Item'])[['Profitability']]
 print(Profitability_group.mean())
 
@@ -295,7 +378,14 @@ df.groupby('Year')['Sales'].sum().plot(kind='bar')
 plt.ylabel('Sales')
 plt.title('2019-2020 comparison')
 plt.show()
-#
+
+
+
+
+
+
+
+
 
 
 
