@@ -272,13 +272,20 @@ c=df['Not_interested']
 d=df['Not_likely']
 
 #subset add calculation to dataset
-#add df['a]=forumula
+#add df['a']=forumula
 df['A']=df.Interested/df.Likely
 df['B']=df.Not_interested/df.Not_likely
 print(df.columns)
 
-#print dataset with the situations A,B
+#print dataset with the situations A,B in columns
 print(df.head (3))
+
+#combined in a subset columns, to have in a small table a,b situ
+a_19=df[df.Year==2019]
+a_20=df[df.Year==2020]
+ab=a_19.append(a_20)
+a_b=ab[4:20][['Year','Item','A','B']]
+print(a_b)
 
 #aggregate ABs/season
 
@@ -296,13 +303,14 @@ print(Month_A.mean())
 Month_B=df.groupby(['Month','Item'])[['B']]
 print(Month_B.mean())
 
-#agg A/B per year #some items may not be found in certain years
+#agg A/B per year  
 
 Year_A=df.groupby(['Year','Item'])[['A']]
 print(Year_A.mean())
 
 Year_B=df.groupby(['Year','Item'])[['B']]
 print(Year_B.mean())
+
 
 #-------------------------------------------WHEATHER CONTEXT SALES -----------------------
 
@@ -378,6 +386,14 @@ df.groupby('Year')['Sales'].sum().plot(kind='bar')
 plt.ylabel('Sales')
 plt.title('2019-2020 comparison')
 plt.show()
+
+#subsetting profitability on items, autumn September 2020
+
+autumn=df[df.Season=='autumn']
+Month_sep=df[df.Month=='Sep']
+p_stack=autumn.append(Month_sep)
+profitab_s=p_stack[4:80][['Year','Item','Profitability','Sales']]
+print(profitab_s.tail (5))
 
 
 
