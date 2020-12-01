@@ -27,6 +27,7 @@ what are the best months and days?"""
 #visuals with plotly (also a separate section containing plotly)
 #function on roi 
 #a/b approach 
+#ROI
 #Weather context 
 #economics  
 #profitability 
