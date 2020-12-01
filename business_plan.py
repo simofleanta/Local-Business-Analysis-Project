@@ -355,6 +355,9 @@ print(combined_col)
 
 #--------------------------Economic cotext
 
+#added inflation rate and target rate for 2020. 
+#added unemployment rates and correlated with inflation levels.
+
 economic=pd.read_csv('unemployment.csv')
 print(economic.columns)
 df_economic=DataFrame(economic.head(10))
