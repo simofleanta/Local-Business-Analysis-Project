@@ -4,7 +4,7 @@ This project will offer insights over profitability of the business.
 Insights:
 ROI/A/B approach/profitability of products/performance per months/years/weeks/paralell to the local econoy unemployment
 
-Code:
+#Code:
 EDA-groupings/sortings/aggregation -mean, max, sum values/pivotations/visuals with seaborn/visuals with plotly - there'll be a separate section containing plotly charts/function on roi #a/b approach #profitability/#subsets of data where you cand see calculations for profitability/aggregation and pivot barcharts over profitability
 
 Docs:

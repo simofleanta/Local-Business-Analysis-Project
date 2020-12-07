@@ -27,6 +27,7 @@ what are the best months and days?"""
 #visuals with plotly (also a separate section containing plotly)
 #function on roi 
 #a/b approach 
+#ROI
 #Weather context 
 #economics  
 #profitability 
@@ -354,6 +355,9 @@ print(combined_col)
 #Should I reopen the business given the actual economic context?
 
 #--------------------------Economic cotext
+
+#added inflation rate and target rate for 2020. 
+#added unemployment rates and correlated with inflation levels.
 
 economic=pd.read_csv('unemployment.csv')
 print(economic.columns)
