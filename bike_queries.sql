@@ -1,0 +1,27 @@
+--CREATE TABLE 
+CREATE TABLE BIKES (
+    ID INT NOT NULL AUTO INCREMENT,
+    Bike_name VARCHAR (255) NOT NULL,
+    Sales_rev FLOAT NOT NULL,
+    BIKE_ID INT NOT NULL,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (BIKE_ID) REFERENCES (BIKE_ID)
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
